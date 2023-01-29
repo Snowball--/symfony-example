@@ -16,7 +16,8 @@ class MixRepository
      */
     public function __construct(
         private readonly CacheInterface $cache,
-        private readonly HttpClientInterface $client
+        private readonly HttpClientInterface $client,
+        private readonly bool $isDebug
     ) {}
 
     /**
@@ -26,7 +27,7 @@ class MixRepository
     public function findAll(): array
     {
         return $this->cache->get('mixes_data', function (CacheItemInterface $cacheItem) {
-            $cacheItem->expiresAfter(5);
+            $cacheItem->expiresAfter($this->isDebug ? 5 : 60);
             $response = $this->client->request(
                 'GET',
                 'https://raw.githubusercontent.com/SymfonyCasts/vinyl-mixes/main/mixes.json'
