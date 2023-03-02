@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace App\Service;
 
 use Psr\Cache\CacheItemInterface;
+use Symfony\Bridge\Twig\Command\DebugCommand;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
@@ -19,7 +22,7 @@ class MixRepository
         private readonly CacheInterface $cache,
         private readonly HttpClientInterface $githubContentClient,
         #[Autowire('%kernel.debug%')]
-        private readonly bool $isDebug
+        private readonly bool $isDebug,
     ) {}
 
     /**
