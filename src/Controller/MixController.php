@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\VinylMix;
+use App\Repository\VinylMixRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,5 +30,19 @@ class MixController extends AbstractController
             $mix->getId(),
             $mix->getTrackCount()
         ));
+    }
+
+    /**
+     * @param int $id
+     * @param VinylMixRepository $mixRepository
+     * @return Response
+     */
+    #[Route('/mix/{id}', name: 'app_mix_show')]
+    public function show(int $id, VinylMixRepository $mixRepository): Response
+    {
+        $mix = $mixRepository->find($id);
+        return $this->render('mix/show.html.twig', [
+            'mix' => $mix
+        ]);
     }
 }
